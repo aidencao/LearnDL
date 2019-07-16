@@ -5,6 +5,7 @@ from keras import layers
 from keras import optimizers
 from keras import losses
 from keras import metrics
+import Draw_Diagram
 
 # 加载IMDB数据集  num_word表示保留词频为前10000的单词
 # data为2维张量,第一维度表示评论,第二维度表示评论内的单词
@@ -53,3 +54,14 @@ partial_y_train = y_train[10000:]
 
 # 进行训练
 history = models.fit(partial_x_train, partial_y_train, epochs=20, batch_size=512, validation_data=(x_val, y_val))
+
+# 绘制训练损失和验证损失
+Draw_Diagram.show_loss(history)
+Draw_Diagram.show_acc(history)
+
+# 使用测试集进行验证
+results = models.evaluate(x_test, y_test)
+print("测试集结果:", results)
+
+# 使用网络进行实践
+print('预测结果:', models.predict(x_test))
